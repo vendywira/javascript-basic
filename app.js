@@ -8,6 +8,9 @@ loadEventListener();
 
 function loadEventListener() {
   form.addEventListener('submit', addTask);
+  taskList.addEventListener('click', removeTask);
+  btnClear.addEventListener('click', clearTask);
+  filter.addEventListener('keyup', filteringTask);
 }
 
 function addTask(e) {
@@ -25,7 +28,32 @@ function addTask(e) {
 
     taskList.appendChild(li);
   }
-  
-  console.log('test');
   e.preventDefault();
+}
+
+function removeTask(e) {
+  if(e.target.parentElement.classList.contains('delete-item')) {
+    e.target.parentElement.parentElement.remove();
+  }
+}
+
+function clearTask() {
+  while(taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
+}
+
+function filteringTask(e) {
+  const filterWord = e.target.value.toLowerCase();
+  console.log(filterWord);
+  document.querySelectorAll('.collection-item').forEach(function(item) {
+    console.log(item.firstChild.textContent.toLowerCase());
+    if(item.firstChild.textContent.toLowerCase().indexOf(filterWord) != -1) {
+      item.style.display = 'block';
+      console.log('show');
+    } else {
+      item.style.display = 'none';
+      console.log('hide');
+    }
+  });
 }
